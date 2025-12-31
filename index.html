@@ -4,29 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مینی‌اپلیکیشن من</title>
-    <!-- تنظیمات ویژه برای محیط وب‌ویو (WebView) -->
     <meta name="theme-color" content="#3498db"/>
     <style>
         /* فونت فارسی و استایل کلی */
-        @font-face {
-            font-family: 'Vazirmatn'; /* یا هر فونت فارسی دیگری که در محیط Bale پشتیبانی شود */
-            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/Vazirmatn/dist/Vazirmatn-Light.woff2') format('woff2');
-        }
         body {
-            font-family: 'Vazirmatn', Tahoma, sans-serif;
+            font-family: Tahoma, sans-serif; /* استفاده از فونت سیستمی مطمئن‌تر */
             margin: 0;
             padding: 0;
-            background-color: #f4f7f9; /* پس‌زمینه سبک */
+            background-color: #f4f7f9;
             color: #333;
             display: flex;
             flex-direction: column;
-            height: 100vh; /* برای پر کردن کل صفحه */
-            overflow: hidden; /* برای جلوگیری از اسکرول کلی صفحه */
+            height: 100vh;
+            overflow: hidden;
         }
 
-        /* هدر (Header) - عنوان بزرگ */
+        /* هدر (Header) */
         .header {
-            background-color: #3498db; /* رنگ آبی اصلی */
+            background-color: #3498db;
             color: white;
             padding: 20px 15px;
             text-align: center;
@@ -42,16 +37,15 @@
         .content {
             flex-grow: 1;
             padding: 20px;
-            overflow-y: auto; /* قابلیت اسکرول فقط در بخش محتوا */
+            overflow-y: auto;
             text-align: center;
         }
 
-        /* صفحه های محتوا (برای نمایش صفحات مختلف) */
         .page {
-            display: none; /* همه صفحات به صورت پیش‌فرض پنهان هستند */
+            display: none;
         }
         .page.active {
-            display: block; /* صفحه فعال نمایش داده می‌شود */
+            display: block;
         }
         .page-title {
             font-size: 22px;
@@ -59,17 +53,16 @@
             color: #2c3e50;
         }
 
-        /* نوار ناوبری پایین (Bottom Navigation) */
+        /* نوار ناوبری پایین (Bottom Navigation) - تنظیم برای RTL */
         .bottom-nav {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-around; /* برای توزیع مساوی فضا بین عناصر */
             background-color: white;
             border-top: 1px solid #eee;
             padding: 10px 0;
             box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
-            position: sticky; /* برای چسبیدن به پایین در صورتی که محتوا اسکرول دارد */
-            bottom: 0;
             width: 100%;
+            direction: rtl; /* برای اطمینان از جهت‌دهی راست به چپ */
         }
         .nav-item {
             display: flex;
@@ -82,7 +75,7 @@
             font-size: 12px;
         }
         .nav-item.active {
-            color: #3498db; /* رنگ فعال سازی */
+            color: #3498db;
         }
         .nav-item img {
             width: 24px;
@@ -112,36 +105,50 @@
         <div id="shop-page" class="page">
             <p class="page-title">صفحه خرید</p>
             <p>در این قسمت می‌توانید محصولات یا بسته‌های مورد نیاز ربات را خریداری کنید.</p>
-            <!-- اینجا می‌توانید لیست محصولات را اضافه کنید -->
         </div>
 
         <!-- صفحه تنظیمات -->
         <div id="settings-page" class="page">
             <p class="page-title">صفحه تنظیمات</p>
             <p>تنظیمات ربات و اکانت‌های خود را مدیریت کنید.</p>
-            <!-- اینجا می‌توانید سوئیچ‌ها و فیلدهای تنظیمات را اضافه کنید -->
+        </div>
+        
+        <!-- صفحه اطلاعات (صفحه پیشنهادی جدید) -->
+        <div id="info-page" class="page">
+            <p class="page-title">اطلاعات سیستم</p>
+            <p>این بخش برای نمایش لاگ‌ها یا وضعیت سرورهای متصل استفاده می‌شود.</p>
         </div>
     </div>
 
     <!-- 3. نوار منوی پایین -->
     <div class="bottom-nav">
         
+        <!-- صفحه اصلی (به عنوان اولین آیتم در RTL) -->
         <div class="nav-item active" data-page="home-page">
-            <!-- آیکون صفحه اصلی -->
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTEgMjB2LTVoNFYyMEgxMVptLTUgMGgtNFYxMEgxNnY1aC00djVoLTR6bTEwIDBoLTRWMTRoNHY1eiIgZmlsbD0iY3VycmVudENvbG9yIi8+PC9zdmc+" alt="خانه">
+            <!-- آیکون خانه (Home) -->
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjAuMTkgMTkuMDhMMjAuMTkgMTQuM1Y4LjY0Yy0xLjA2LS40MS0yLjE1LS43MS0zLjI3LS44MkwxMiAzLjU0bC00Ljg2IDQuMjhoMTQuMzdjLS42My43NS0xLjI4IDEuNDctMS45۳IDIuMTdsLTMuMzIgMy4zMnoiIGZpbGw9ImN1cnJlbnRDb2xvciIvPjwvc3ZnPg==" alt="خانه">
             صفحه اصلی
         </div>
         
+        <!-- صفحه خرید -->
         <div class="nav-item" data-page="shop-page">
-            <!-- آیکون صفحه خرید (آیکون سبد خرید) -->
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTggNi40MTRMMTcgNS40MTRjLS42LS42LTEuNS0uNi0yLjEgMEw3IDE3LjU4Nkw0LjEgMTQuNTg2Yy0uNi0uNi0x.1NS0uNi0yLjEgMEwzIDExLjU4N0w0LjU4NiA5LjQxNGMtLjYtLjYtMS41LS42LTIuMSAwTDEgMTJjLS40LjQtLjQgMS4xIDAgMS41bDIuODMgMi44M2MuNi42IDEuNS42IDIuMSAwTDExLjU4NiA4bDMuMjEgMy4yMWMuNi42IDEuNS42IDIuMSAwTDE3IDkuNDE0eiIgZmlsbD0iY3VycmVudENvbG9yIi8+PC9zdmc+" alt="خرید">
+            <!-- آیکون خرید (Shop/Cart) -->
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTggNmMwLS41NS0uNDUtMS0xLTFIM3YySDE3YzAuNTUgMCAxIC40NSAxIDF2M0g0VjExaDE0VjhoLTF2LTRoMS45MzdjLjUuNDkuODMuOTguOTcgMS40MkwyMCAxNmMwIC41NS0uNDUgMS0xIDFIMTdjLS43NCAwLTEuNDItLjI1LTIuMDItLjc1bC0yLjg2LTIuODZjLS4zNi0uMzYtLjYtLjg2LS42LTEuNDYgMC0uNi4yNC0xLjA5LjYtMS40NkwxMC44MiA1LjQxYy4zNi0uMzYuODYtLjYgMS40Ni0uNmgzLjk0Yy42IDAgMS4xLjI0IDEuNDYuN0wxOCAxMC40VjY0em0tMTIgOEg0VjhoMnY4em0xMiAwaDJ2LThoLTJ2OG0tNCAwaDJ2LThoLTJ2OG0tNCAwaDJ2LThoLTJ2OHoiIGZpbGw9ImN1cnJlbnRDb2xvciIvPjwvc3ZnPg==" alt="خرید">
             خرید
         </div>
         
+        <!-- صفحه تنظیمات -->
         <div class="nav-item" data-page="settings-page">
-            <!-- آیکون صفحه تنظیمات (آیکون چرخ‌دنده) -->
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMzcuODUgMTQuNDhMMzYuMjEgMTIuODNjLS42LS42LS42LTEuNiAwLTIuMmwxLjYyLTEuNjJjLjYtLjYgMS41LS42IDIuMSAwbDEuNjIgMS42MmMuNi42LjYgMS41IDAgMi4xTDM5LjQ3IDE0LjVjLjYtLjYgLjYtMS41IDAtMi4xTDM3Ljk3IDkuNDh6bTAtMy45MThjLS4zNi0uMzYtLjk2LS4zNi0xLjMyIDBMMjQgMTMuMThjLS42LjYtMS41LjYtMi4xIDBMMjAuMzcgMTIuOGMtLjYtLjYtMS41LS42LTIuMSAwTDE3LjU4NiAxNC41Yy0uNi42LS42IDEuNSAwIDIuMWwxLjYyIDEuNjJjLjY.2LjYgMS41LjYgMi4xIDBMMjQgMTcuNThjLjY.2LjYgMS41LjYgMi4xIDBMMjUuNjMgMTcuNjVjLjYtLjYgLjYtMS41IDAtMi4xTDIzLjAzIDExLjM3eiIgZmlsbD0iY3VycmVudENvbG9yIiB0cmFuc2Zvcm09Im1hdHJpeCgwLjcwNzEyIC0wLjcwNzAxIC02LjAzMDYgNS4zNTcxICAgMC43MDcwMSAgMC43MDcwMSAgNS4zNTcxICAtNi4wMzA2KSIvPjwvc3ZnPg==" alt="تنظیمات">
+            <!-- آیکون تنظیمات (Settings) -->
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMi4wNWMtNS41MiAwLTkuOTggNC40OC05Ljk4IDkuOThzNC40NiA5Ljk4IDkuOTggOS45OCAzLjQ1LTEuNTggNC41Ni00LjIxLjAwMS0uMDEzLjAwMS0uMDI2LjAwMS0uMDM5bC0zLjA3LTEuMDRjLS4yLjU2LS41Ni44OS0xLjA4LjgyLTIuNjQtLjMzLTQuODEtLjc1LTYuOTQtMS4yNWMtLjIyLS4wNS0uNDQuMDQtLjY1LjExLS40Mi4xNC0uNzguNDItLjkyLjgyLTIuMTQgMS41NC00LjU2IDIuMTQtNy4yNSAyLjQ3LS4yMS4wMy0uNDIuMDUtLjY0LjA3LS4wNS4wMS0uMS4wMi0uMTUuMDN2MTEuNjRjMCAuMzIuMjYuNTguNTguNTguMTUuMDMuMzEuMDYuNDcuMDkuMTIuMDMuMjIuMDIuMzMuMDQuMzUuNDUuMTIuNjYuMTUuODkuMjIuMTEuMzcuMTUuMjEuMTkuMzQuMjMuMDkuMTQuMjcuMTkuNDUuMjguMTkuMDcuMzkuMjYuNDEuNTEuMTYuMjcuMjYuMzYuMzkuNDcuNTUuNTUuNzguNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODguODkuOTkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzIvY29udGVudC9hLzIv" alt="تنظیمات">
             تنظیمات
+        </div>
+        
+        <!-- صفحه اطلاعات (جدید) -->
+        <div class="nav-item" data-page="info-page">
+            <!-- آیکون اطلاعات (Info) -->
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTEgMTIuNTZoMnY1aC0yem0wLTdIMTZ2MmgtMnptMTIgMy41Yy0uMDUuNDMtLjEzLjgzLS4yNSA2LjA4LS4yMS44OS0uNTIgMS43My0uODggMi41My0uNjggMS41NC0xLjQxIDIuNjUtMi4yMSA0LjA0LS4zOC41OC0uNzcgMS4xMi0xLjE4IDEuNjctLjIxLjI4LS40My41NC0uNjcuNzgtLjIuMi0uNDEuMzgtLjYyLjU0LS4xOS4wOC0uMzkuMTQtLjU5LjE4LS4wOS4wMS0uMTguMDItLjI3LjAyLS4xLjAxLS4yLjAxLS4zLjAyLTIuMzUuMTEtNC43NS4yMy03LjA1LjM2LS4yMi4xMS0uNDMuMjEtLjY1LjMyLS4yNS4xMy0uNDkuMjUtLjczLjM3LS4yNC4xMi0uNDkuMjQtLjczLjM2LS4xNC4wNy0uMjkuMTMtLjQzLjItLjA2LjAzLS4xMi4wNi0uMTkuMDktLjAxLjAxLS4wMi4wMi0uMDQuMDIgLjA1LS4wMS4xLS4wMi4xNS0uMDEuMDYtLjAyLjEyLS4wMy4xOC0uMDQuMjItLjAyLjQ0LS4wMy42Ni0uMDV6TTExIDExLjA2aDJ2MmgtMnYtMnoiIGZpbGw9ImN1cnJlbnRDb2xvciIvPjwvc3ZnPg==" alt="اطلاعات">
+            اطلاعات
         </div>
         
     </div>
@@ -151,20 +158,16 @@
             const navItems = document.querySelectorAll('.nav-item');
             const pages = document.querySelectorAll('.page');
 
-            // تابع برای تغییر صفحه فعال
             function switchPage(pageId) {
-                // غیرفعال کردن همه صفحات
                 pages.forEach(page => {
                     page.classList.remove('active');
                 });
                 
-                // فعال کردن صفحه مورد نظر
                 const targetPage = document.getElementById(pageId);
                 if (targetPage) {
                     targetPage.classList.add('active');
                 }
 
-                // مدیریت استایل آیکون ناوبری
                 navItems.forEach(item => {
                     item.classList.remove('active');
                     if (item.getAttribute('data-page') === pageId) {
@@ -173,23 +176,15 @@
                 });
             }
 
-            // اضافه کردن شنونده رویداد به آیتم‌های ناوبری
             navItems.forEach(item => {
                 item.addEventListener('click', function() {
                     const pageId = this.getAttribute('data-page');
-                    // اگر در آینده نیاز به اجرای کد خاصی (مثلاً فراخوانی از API یا عملیات ربات) داشتید، اینجا قرار دهید.
-                    console.log(`Navigating to: ${pageId}`);
                     switchPage(pageId);
                 });
             });
 
-            // تنظیم صفحه پیش‌فرض (صفحه اصلی) هنگام بارگذاری
+            // تنظیم صفحه پیش‌فرض
             switchPage('home-page');
-            
-            // *نکته مهم برای Bale Mini Apps*
-            // برای اینکه مرورگر داخلی (WebView) دقیقا به اندازه محتوا نمایش داده شود، 
-            // ممکن است نیاز به استفاده از توابع جاوا اسکریپت Bale API برای تغییر اندازه پنجره باشد.
-            // چون API اختصاصی Bale را نداریم، فعلا با تنظیم height: 100vh در CSS کار می‌کنیم.
         });
     </script>
 </body>
