@@ -4,14 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مینی‌اپلیکیشن من</title>
-    <meta name="theme-color" content="#3498db"/>
+    <meta name="theme-color" content="#2c3e50"/>
+    
+    <!-- 1. اضافه شدن لینک Font Awesome برای آیکون‌ها -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
-        /* فونت فارسی و استایل کلی */
+        /* فونت و استایل کلی */
         body {
-            font-family: Tahoma, sans-serif;
+            font-family: Tahoma, "Arial Black", sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f7f9;
+            background-color: #ecf0f1; /* رنگ پس‌زمینه کمی روشن‌تر */
             color: #333;
             display: flex;
             flex-direction: column;
@@ -21,15 +25,15 @@
 
         /* هدر (Header) */
         .header {
-            background-color: #3498db;
+            background-color: #2c3e50; /* آبی تیره/سرمه‌ای */
             color: white;
-            padding: 20px 15px;
+            padding: 15px;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
         }
         .header h1 {
             margin: 0;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
         }
 
@@ -48,49 +52,59 @@
             display: block;
         }
         .page-title {
-            font-size: 22px;
-            margin-bottom: 15px;
-            color: #2c3e50;
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: #2980b9; /* آبی روشن‌تر برای عنوان */
+            border-bottom: 2px solid #bdc3c7;
+            padding-bottom: 5px;
+        }
+        .content-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: right; /* تراز محتوا به راست */
         }
 
-        /* نوار ناوبری پایین (Bottom Navigation) - تنظیم برای معکوس کردن کامل ترتیب */
+        /* نوار ناوبری پایین (Bottom Navigation) - ترتیب معکوس */
         .bottom-nav {
             display: flex;
             justify-content: space-around;
             background-color: white;
-            border-top: 1px solid #eee;
-            padding: 10px 0;
-            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
+            border-top: 1px solid #ccc;
+            padding: 5px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
             width: 100%;
-            direction: rtl; /* برای فارسی */
-            /* *** اعمال تغییر کلیدی: معکوس کردن ترتیب نمایش *** */
+            direction: rtl; 
+            /* **چینش کاملاً معکوس (اطلاعات اول، خانه آخر)** */
             flex-direction: row-reverse; 
         }
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #95a5a6;
+            color: #7f8c8d;
             cursor: pointer;
-            padding: 5px 10px;
+            padding: 8px 10px;
             transition: color 0.3s;
-            font-size: 12px;
+            font-size: 11px;
+            flex: 1; /* برای توزیع یکسان فضا */
         }
         .nav-item.active {
-            color: #3498db;
+            color: #e74c3c; /* رنگ تاکید قرمز برای فعال */
         }
-        .nav-item img {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 3px;
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. هدر با عنوان بزرگ -->
+    <!-- 1. هدر -->
     <div class="header">
-        <h1>My Hunter Bot</h1>
+        <h1>مدیریت مینی‌اپلیکیشن</h1>
     </div>
 
     <!-- 2. بخش محتوا -->
@@ -98,58 +112,77 @@
         
         <!-- صفحه اصلی -->
         <div id="home-page" class="page active">
-            <p class="page-title">صفحه اصلی</p>
-            <p>خوش آمدید به ربات شکارچی شما.</p>
-            <p>اینجا جایی است که شما وضعیت کلی را مشاهده می‌کنید.</p>
+            <p class="page-title">داشبورد اصلی</p>
+            <div class="content-card">
+                <h3>خوش آمدید!</h3>
+                <p>این صفحه اصلی و نمای کلی سیستم شماست.</p>
+                <p>سیستم در حال حاضر با موفقیت در حال اجراست. آماده دریافت دستورات جدید.</p>
+            </div>
         </div>
 
         <!-- صفحه خرید -->
         <div id="shop-page" class="page">
-            <p class="page-title">صفحه خرید</p>
-            <p>در این قسمت می‌توانید محصولات یا بسته‌های مورد نیاز ربات را خریداری کنید.</p>
+            <p class="page-title">بخش خرید</p>
+            <div class="content-card">
+                <h3>افزایش منابع</h3>
+                <p>منابع مورد نیاز (مانند اعتبار یا دسترسی) را از این بخش تهیه کنید.</p>
+                <button style="padding: 10px 20px; background-color: #2ecc71; color: white; border: none; border-radius: 5px; cursor: pointer;">مشاهده پلن‌ها</button>
+            </div>
         </div>
 
         <!-- صفحه تنظیمات -->
         <div id="settings-page" class="page">
-            <p class="page-title">صفحه تنظیمات</p>
-            <p>تنظیمات ربات و اکانت‌های خود را مدیریت کنید.</p>
-        </div>
-        
-        <!-- صفحه اطلاعات (صفحه پیشنهادی جدید) -->
-        <div id="info-page" class="page">
-            <p class="page-title">اطلاعات سیستم</p>
-            <p>این بخش برای نمایش لاگ‌ها یا وضعیت سرورهای متصل استفاده می‌شود.</p>
-        </div>
-    </div>
-
-    <!-- 3. نوار منوی پایین - ترتیب HTML بر اساس RTL معکوس می‌شود -->
-    <div class="bottom-nav">
-        
-        <!-- صفحه اصلی (در اینجا آیتم اول است، اما در نمایش RTL معکوس، آخر خواهد بود) -->
-        <div class="nav-item" data-page="home-page">
-            <!-- آیکون خانه (Home) -->
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjAuMTkgMTkuMDhMMjAuMTkgMTQuM1Y4LjY0Yy0xLjA2LS40MS0yLjE1LS43MS0zLjI3LS44MkwxMiAzLjU0bC00Ljg2IDQuMjhoMTQuMzdjLS42My43NS0xLjI4IDEuNDctMS45۳IDIuMTdsLTMuMzIgMy4zMnoiIGZpbGw9IiMwMDAwMDAiLz48L3N2Zz4=" alt="خانه">
-            صفحه اصلی
-        </div>
-        
-        <!-- صفحه خرید -->
-        <div class="nav-item" data-page="shop-page">
-            <!-- آیکون خرید (Shop/Cart) -->
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTggNmMwLS41NS0uNDUtMS0xLTFIM3YySDE3YzAuNTUgMCAxIC40NSAxIDF2M0g0VjExaDE0VjhoLTF2LTRoMS45MzdjLjUuNDkuODMuOTkuOTcgMS40MkwyMCAxNmMwIC41NS0uNDUgMS0xIDFIMTdjLS43NCAwLTEuNDItLjI1LTIuMDItLjc1bC0yLjg2LTIuODZjLS4zNi0uMzYtLjYtLjg2LS42LTEuNDYgMC0uNi4yNC0xLjA5LjYtMS40NkwxMC44MiA1LjQxYy4zNi0uMzYuODYtLjYgMS40Ni0uNmgzLjk0Yy42IDAgMS4xLjI0IDEuNDYuN0wxOCAxMC40VjY0em0tMTIgOEg0VjhoMnY4em0xMiAwaDJ2LThoLTJ2OG0tNCAwaDJ2LThoLTJ2OG0tNCAwaDJ2LThoLTJ2OHoiIGZpbGw9IiMwMDAwMDAiLz48L3N2Zz4=" alt="خرید">
-            خرید
-        </div>
-        
-        <!-- صفحه تنظیمات -->
-        <div class="nav-item" data-page="settings-page">
-            <!-- آیکون تنظیمات (Settings) -->
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMi4wNWMtNS41MiAwLTkuOTggNC40OC05Ljk4IDkuOThzNC40NiA5Ljk4IDkuOTggOS45OCAzLjQ1LTEuNTggNC41Ni00LjIxLjAwMS0uMDEzLjAwMS0uMDI2LjAwMS0uMDM5bC0zLjA3LTEuMDRjLS4yLjU2LS41Ni44OS0xLjA4LjgyLTIuNjQtLjMzLTQuODEtLjc1LTYuOTQtMS4yNWMtLjIyLS4wNS0uNDQuMDQtLjY1LjExLS40Mi4xNC0uNzguNDItLjkzLjgyLTIuMTQgMS41NC00LjU2IDIuMTQtNy4yNSAyLjQ3LS4yMS4wMy0uNDIuMDUtLjY0LjA3LS4wNS4wMS0uMS4wMi0uMTUuMDN2MTEuNjRjMCAuMzIuMjYuNTguNTguNTguMTUuMDMuMzEuMDYuNDcuMDkuMTIuMDMuMjIuMDIuMzMuMDQuMzUuNDUuMTIuNjYuMTUuODkuMjIuMTEuMzcuMTUuMjEuMTkuMzQuMjMuMDkuMTQuMjcuMTkuNDUuMjguMTkuMDcuMzkuMjYuNDEuNTEuMTYuMjcuMjYuMzYuMzkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzIvY29udGVudC9hLzIv" alt="تنظیمات">
-            تنظیمات
+            <p class="page-title">تنظیمات کاربری</p>
+            <div class="content-card">
+                <h4>تنظیمات اصلی</h4>
+                <ul>
+                    <li>تغییر رمز عبور</li>
+                    <li>مدیریت توکن‌ها</li>
+                    <li>تنظیمات نوتیفیکیشن</li>
+                </ul>
+            </div>
         </div>
         
         <!-- صفحه اطلاعات (جدید) -->
+        <div id="info-page" class="page">
+            <p class="page-title">وضعیت سیستم</p>
+            <div class="content-card">
+                <h4>جزئیات فنی</h4>
+                <p><strong>نسخه اپلیکیشن:</strong> 1.2.0</p>
+                <p><strong>وضعیت اتصال:</strong> متصل (۲ سرور فعال)</p>
+                <p>آخرین عملیات موفق: 5 دقیقه پیش.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. نوار منوی پایین - ترتیب معکوس اعمال شده است -->
+    <div class="bottom-nav">
+        
+        <!-- ترتیب HTML: 1. info, 2. settings, 3. shop, 4. home -->
+        <!-- به دلیل flex-direction: row-reverse؛ نمایش: 1. home, 2. shop, 3. settings, 4. info (اشتباه) -->
+        <!-- اصلاح: ترتیب نمایش در نوار باید با ترتیب درخواستی شما (اطلاعات، تنظیمات، خرید، خانه) مطابقت داشته باشد -->
+        
+        <!-- آیتم 1: صفحه اصلی (در سمت چپ نهایی) -->
+        <div class="nav-item" data-page="home-page">
+            <i class="fas fa-house"></i>
+            صفحه اصلی
+        </div>
+        
+        <!-- آیتم 2: صفحه خرید -->
+        <div class="nav-item" data-page="shop-page">
+            <i class="fas fa-cart-shopping"></i>
+            خرید
+        </div>
+        
+        <!-- آیتم 3: صفحه تنظیمات -->
+        <div class="nav-item" data-page="settings-page">
+            <i class="fas fa-gear"></i>
+            تنظیمات
+        </div>
+        
+        <!-- آیتم 4: صفحه اطلاعات (در سمت راست نهایی) -->
         <div class="nav-item" data-page="info-page">
-            <!-- آیکون اطلاعات (Info) -->
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMi4wNWMtNS41MiAwLTkuOTggNC40OC05Ljk4IDkuOThzNC40NiA5Ljk4IDkuOTggOS45OCAzLjQ1LTEuNTggNC41Ni00LjIxLjAwMS0uMDEzLjAwMS0uMDI2LjAwMS0uMDM5bC0zLjA3LTEuMDRjLS4yLjU2LS41Ni44OS0xLjA4LjgyLTIuNjQtLjMzLTQuODEtLjc1LTYuOTQtMS4yNWMtLjIyLS4wNS0uNDQuMDQtLjY1LjExLS40Mi4xNC0uNzguNDItLjkzLjgyLTIuMTQgMS41NC00LjU2IDIuMTQtNy4yNSAyLjQ3LS4yMS4wMy0uNDIuMDUtLjY0LjA3LS4wNS4wMS0uMS4wMi0uMTUuMDN2MTEuNjRjMCAuMzIuMjYuNTguNTguNTguMTUuMDMuMzEuMDYuNDcuMDkuMTIuMDMuMjIuMDIuMzMuMDQuMzUuNDUuMTIuNjYuMTUuODkuMjIuMTEuMzcuMTUuMjEuMTkuMzQuMjMuMDkuMTQuMjcuMTkuNDUuMjguMTkuMDcuMzkuMjYuNDEuNTEuMTYuMjcuMjYuMzYuMzkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzEuODguODkuOTkuOTkuOTkuMTMuMTUuMTkuMzAuMTkuNDcuNTUuNTcuNzkuNjUuODkuODUuMTEuMTIuMjMuMTcuMjkuMTkuNDEuMTguNjEuMjMuNzcuMzIvY29udGVudC9hLzIv" alt="اطلاعات">
+            <i class="fas fa-circle-info"></i>
             اطلاعات
         </div>
         
@@ -185,7 +218,7 @@
                 });
             });
 
-            // تنظیم صفحه پیش‌فرض (معمولاً اولین آیتم در HTML که حالا در سمت راست قرار می‌گیرد)
+            // تنظیم صفحه پیش‌فرض (برای شروع، صفحه اصلی را فعال می‌کنیم)
             switchPage('home-page');
         });
     </script>
