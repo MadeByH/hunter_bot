@@ -8,6 +8,8 @@
     
     <!-- 1. اضافه شدن لینک Font Awesome برای آیکون‌ها -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="https://miniapp.bale.ai/sdk.js"></script>
     
     <style>
         /* فونت و استایل کلی */
@@ -266,6 +268,14 @@
     return;
   }
 
+  if (!/^989\d{9}$/.test(phone)) {
+  bale.showPopup({
+    title: "❌ خطا",
+    message: "شماره تلفن معتبر نیست"
+  });
+  return;
+      }
+
   askForCode(phone);
             }
 
@@ -282,7 +292,55 @@
     ]
   });
         }
-        
+
+        async function verifyCode(phone) {
+  const code = document.getElementById("codeInput").value;
+
+  const res = await fetch("https://hunter-api-2x97.onrender.com/login/verify-code", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone, code })
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) {
+    bale.showPopup({
+      title: "❌ خطا",
+      message: data.error || "کد اشتباه است"
+    });
+    return;
+  }
+
+  bale.showPopup({
+    title: "✅ موفق",
+    message: "اکانت با موفقیت اضافه شد"
+  });
+
+  loadAccounts(); // لیست رو رفرش کن
+      }
+
+        async function loadAccounts() {
+  const res = await fetch("https://hunter-api-2x97.onrender.com/accounts");
+  const data = await res.json();
+
+  const box = document.getElementById("accounts-list");
+  box.innerHTML = "";
+
+  data.accounts.forEach(acc => {
+    const div = document.createElement("div");
+    div.style = "padding:10px;margin-top:8px;background:#f4f4f4;border-radius:6px;";
+    div.innerHTML = `
+      📱 ${acc.phone}
+      <span style="color:${acc.online ? 'green' : 'red'}">
+        (${acc.online ? 'آنلاین' : 'آفلاین'})
+      </span>
+    `;
+    box.appendChild(div);
+  });
+        }
+
+        document.addEventListener("DOMContentLoaded", loadAccounts);
     </script>
 </body>
 </html>
