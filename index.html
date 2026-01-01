@@ -114,9 +114,23 @@
         <div id="home-page" class="page active">
             <p class="page-title">داشبورد اصلی</p>
             <div class="content-card">
-                <h3>خوش آمدید!</h3>
-                <p>این صفحه اصلی و نمای کلی سیستم شماست.</p>
-                <p>سیستم در حال حاضر با موفقیت در حال اجراست. آماده دریافت دستورات جدید.</p>
+  <h3>اکانت‌ها</h3>
+
+  <button
+    onclick="openAddAccount()"
+    style="
+      padding: 12px 20px;
+      background:#3498db;
+      color:white;
+      border:none;
+      border-radius:8px;
+      font-size:15px;
+      cursor:pointer;
+    ">
+    ➕ افزودن اکانت
+  </button>
+
+  <div id="accounts-list" style="margin-top:15px;"></div>
             </div>
         </div>
 
@@ -221,6 +235,54 @@
             // تنظیم صفحه پیش‌فرض (برای شروع، صفحه اصلی را فعال می‌کنیم)
             switchPage('home-page');
         });
+
+        function openAddAccount() {
+  bale.showPopup({
+    title: "افزودن اکانت",
+    message: `
+      <input id="phoneInput" placeholder="989xxxxxxxxx"
+        style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc"/>
+    `,
+    buttons: [
+      { text: "ارسال کد", type: "default", onClick: sendCodeFromPopup },
+      { text: "لغو", type: "cancel" }
+    ]
+  });
+                                      }
+
+        async function sendCodeFromPopup() {
+  const phone = document.getElementById("phoneInput").value;
+
+  const res = await fetch("https://hunter-api-2x97.onrender.com/login/send-code", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone })
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) {
+    bale.showPopup({ title: "❌ خطا", message: data.error });
+    return;
+  }
+
+  askForCode(phone);
+            }
+
+        function askForCode(phone) {
+  bale.showPopup({
+    title: "کد تایید",
+    message: `
+      <input id="codeInput" placeholder="کد تایید"
+        style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc"/>
+    `,
+    buttons: [
+      { text: "تایید", type: "default", onClick: () => verifyCode(phone) },
+      { text: "لغو", type: "cancel" }
+    ]
+  });
+        }
+        
     </script>
 </body>
 </html>
