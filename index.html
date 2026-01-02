@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مینی‌اپلیکیشن من</title>
+    <title>𝑴𝒚 𝑯𝒖𝒏𝒕𝒆𝒓 | شکارچی من</title>
     <meta name="theme-color" content="#2c3e50"/>
     
     <!-- 1. اضافه شدن لینک Font Awesome برای آیکون‌ها -->
@@ -246,48 +246,48 @@
     });
   }
 
-  let loginInProgress = false;
-  async function sendCodeFromPopup() {
-    const phone = document.getElementById("phoneInput")?.value?.trim();
+let loginInProgress = false;
 
-    if (loginInProgress) return;
-    loginInProgress = true;
-      
-    if (!/^989\d{9}$/.test(phone)) {
-      bale.showPopup({
-        title: "❌ خطا",
-        message: "شماره تلفن معتبر نیست"
-      });
-      return;
-    }
+async function sendCodeFromPopup() {
+  if (loginInProgress) return;
+  loginInProgress = true;
 
-    try {
-      const res = await fetch(
-        "https://hunter-api-2x97.onrender.com/login/send-code",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone })
-        }
-      );
+  const phone = document.getElementById("phoneInput")?.value?.trim();
 
-      const data = await res.json();
-
-      if (!data.ok) {
-        throw new Error(data.error || "ارسال کد ناموفق بود");
-      }
-
-      bale.showToast({ text: "کد ارسال شد" });
-      loginInProgress = false;
-    
-      askForCode(phone);
-    } catch (err) {
-      bale.showPopup({
-        title: "❌ خطا",
-        message: err.message
-      });
-    }
+  if (!/^989\d{9}$/.test(phone)) {
+    loginInProgress = false;
+    bale.showPopup({
+      title: "❌ خطا",
+      message: "شماره تلفن معتبر نیست"
+    });
+    return;
   }
+
+  try {
+    const res = await fetch(
+      "https://hunter-api-2x97.onrender.com/login/send-code",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone })
+      }
+    );
+
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+
+    bale.showToast({ text: "کد ارسال شد" });
+    loginInProgress = false;
+    askForCode(phone);
+
+  } catch (err) {
+    loginInProgress = false;
+    bale.showPopup({
+      title: "❌ خطا",
+      message: err.message
+    });
+  }
+                          }
 
   function askForCode(phone) {
     bale.showPopup({
@@ -304,47 +304,30 @@
   }
 
   async function verifyCode(phone) {
-    const code = document.getElementById("codeInput")?.value?.trim();
+  const code = document.getElementById("codeInput")?.value?.trim();
+  if (!code) return;
 
-    if (!code) {
-      bale.showPopup({
-        title: "❌ خطا",
-        message: "کد را وارد کنید"
-      });
-      return;
-    }
-
-    try {
-      const res = await fetch(
-        "https://hunter-api-2x97.onrender.com/login/verify-code",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone, code })
-        }
-      );
-
-      const data = await res.json();
-
-      if (!data.ok) {
-        throw new Error(data.error || "کد اشتباه است");
+  try {
+    const res = await fetch(
+      "https://hunter-api-2x97.onrender.com/login/verify-code",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, code })
       }
+    );
 
-      bale.showPopup({
-        title: "✅ موفق",
-        message: "اکانت با موفقیت اضافه شد"
-      });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
 
-      loadAccounts();
-    } catch (err) {
-      bale.showPopup({
-        title: "❌ خطا",
-        message: err.message
-      });
-    }
+    bale.closePopup?.();
+    bale.showToast({ text: "اکانت اضافه شد" });
+
+    loadAccounts();
+  } catch (err) {
+    bale.showPopup({ title: "❌ خطا", message: err.message });
   }
-
-  bale.closePopup?.();
+      }
 
   async function loadAccounts() {
   const box = document.getElementById("accounts-list");
@@ -352,11 +335,12 @@
 
   try {
     const res = await fetch("https://hunter-api-2x97.onrender.com/accounts");
-    const data = await res.json();
+    if (!res.ok) throw new Error();
 
+    const data = await res.json();
     box.innerHTML = "";
 
-    if (!data.accounts || data.accounts.length === 0) {
+    if (!data.accounts?.length) {
       box.innerHTML = "<p>هیچ اکانتی ثبت نشده</p>";
       return;
     }
@@ -365,18 +349,16 @@
       const div = document.createElement("div");
       div.style =
         "padding:10px;margin-top:8px;background:#f4f4f4;border-radius:6px;";
-      div.innerHTML = `
-        📱 ${acc.phone}
+      div.innerHTML = `📱 ${acc.phone}
         <span style="color:${acc.online ? 'green' : 'red'}">
           (${acc.online ? 'آنلاین' : 'آفلاین'})
-        </span>
-      `;
+        </span>`;
       box.appendChild(div);
     });
   } catch {
     box.innerHTML = "<p style='color:red'>خطا در دریافت اکانت‌ها</p>";
   }
-  }
+                            }
 </script>
 
 </body>
