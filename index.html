@@ -246,9 +246,13 @@
     });
   }
 
+  let loginInProgress = false;
   async function sendCodeFromPopup() {
     const phone = document.getElementById("phoneInput")?.value?.trim();
 
+    if (loginInProgress) return;
+    loginInProgress = true;
+      
     if (!/^989\d{9}$/.test(phone)) {
       bale.showPopup({
         title: "❌ خطا",
@@ -274,6 +278,7 @@
       }
 
       bale.showToast({ text: "کد ارسال شد" });
+      loginInProgress = false;
     
       askForCode(phone);
     } catch (err) {
