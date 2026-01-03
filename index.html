@@ -2,30 +2,34 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>My Hunter | شکارچی من</title>
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <title>𝑴𝒚 𝑯𝒖𝒏𝒕𝒆𝒓 | شکارچی من</title>
   <meta name="theme-color" content="#2c3e50"/>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- آیکون‌های Font Awesome -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 
-  <!-- SDK رسمی MiniApp بله -->
-  <script src="https://tapi.bale.ai/miniapp.js?3"></script>
+  <!-- SDK رسمی Bale MiniApp -->
+  <script src="https://tapi.bale.ai/miniapp.js"></script>
 
   <style>
     body {
       font-family: Tahoma, sans-serif;
       margin: 0;
       background: #ecf0f1;
-      height: 100vh;
       display: flex;
       flex-direction: column;
+      height: 100vh;
     }
+
     .header {
       background: #2c3e50;
-      color: white;
+      color: #fff;
       padding: 14px;
       text-align: center;
     }
+
     .content {
       flex: 1;
       overflow-y: auto;
@@ -33,6 +37,7 @@
       position: relative;
       z-index: 1;
     }
+
     .page { display: none; }
     .page.active { display: block; }
 
@@ -41,23 +46,26 @@
       padding: 16px;
       border-radius: 10px;
       margin-bottom: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     .add-btn {
-  padding: 10px 16px;
-  background: #3498db;
-  color: #fff;
-  border-radius: 8px;
-  text-align: center;
-  user-select: none;
+      padding: 10px 16px;
+      background: #3498db;
+      color: #fff;
+      border-radius: 8px;
+      text-align: center;
+      user-select: none;
     }
-    
+
     .bottom-nav {
       display: flex;
       border-top: 1px solid #ccc;
       background: #fff;
       flex-direction: row-reverse;
+      z-index: 10;
     }
+
     .nav-item {
       flex: 1;
       text-align: center;
@@ -67,217 +75,243 @@
       font-size: 11px;
       pointer-events: auto;
     }
+
     .nav-item.active { color: #e74c3c; }
-    .nav-item i { font-size: 20px; display: block; }
+    .nav-item i {
+      font-size: 20px;
+      display: block;
+      margin-bottom: 4px;
+    }
 
     ul { padding-right: 20px; }
     li { margin-bottom: 6px; }
+
+    /* === Modal === */
+    #addModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #addModal .modal-content {
+      background: #fff;
+      padding: 16px;
+      border-radius: 10px;
+      width: 85%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    #addModal .modal-content h3 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+
+    #addModal input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    #addModal .btn-row {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    #addModal .add-btn.cancel {
+      background: #aaa;
+    }
   </style>
 </head>
 
 <body>
+  <!-- Header -->
+  <div class="header"><h3>𝑴𝒚 𝑯𝒖𝒏𝒕𝒆𝒓 | شکارچی من</h3></div>
 
-<div class="header">
-  <h3>My Hunter | شکارچی من</h3>
-</div>
-
-<div class="content">
-
-  <div id="home-page" class="page active">
-    <div class="content-card">
-      <h3>اکانت‌ها</h3>
-      <div
-  class="add-btn"
-  ontouchstart="openAddAccount()"
->
-  ➕ افزودن اکانت
+  <!-- Content -->
+  <div class="content">
+    <div id="home-page" class="page active">
+      <div class="content-card">
+        <h3>اکانت‌ها</h3>
+        <div class="add-btn" ontouchstart="openAddAccount()">➕ افزودن اکانت</div>
+        <ul id="accounts-list"></ul>
       </div>
-      <ul id="accounts-list"></ul>
+    </div>
+
+    <div id="shop-page" class="page">
+      <div class="content-card">
+        <h3>خرید</h3>
+        <p>به‌زودی …</p>
+      </div>
+    </div>
+
+    <div id="settings-page" class="page">
+      <div class="content-card">
+        <h3>تنظیمات</h3>
+        <ul>
+          <li>مدیریت دسترسی</li>
+          <li>اعلان‌ها</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="info-page" class="page">
+      <div class="content-card">
+        <p>نسخه: 1.2.0</p>
+        <p>وضعیت: فعال</p>
+      </div>
     </div>
   </div>
 
-  <div ontouchstart="alert('OK')">تست</div>
-  
-  <div id="shop-page" class="page">
-    <div class="content-card">
-      <h3>خرید</h3>
-      <p>به‌زودی…</p>
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <div class="nav-item active" data-page="home-page"><i class="fas fa-house"></i>خانه</div>
+    <div class="nav-item" data-page="shop-page"><i class="fas fa-cart-shopping"></i>خرید</div>
+    <div class="nav-item" data-page="settings-page"><i class="fas fa-gear"></i>تنظیمات</div>
+    <div class="nav-item" data-page="info-page"><i class="fas fa-circle-info"></i>اطلاعات</div>
+  </div>
+
+  <!-- Modal افزودن اکانت -->
+  <div id="addModal">
+    <div class="modal-content">
+      <h3>افزودن اکانت</h3>
+      <input id="phoneInput" placeholder="مثلاً 989xxxxxxxxx">
+      <div class="btn-row">
+        <div class="add-btn" ontouchstart="sendCode()">ارسال کد</div>
+        <div class="add-btn cancel" ontouchstart="closeModal()">لغو</div>
+      </div>
     </div>
   </div>
 
-  <div id="settings-page" class="page">
-    <div class="content-card">
-      <h3>تنظیمات</h3>
-      <ul>
-        <li>مدیریت دسترسی</li>
-        <li>اطلاع‌رسانی</li>
-      </ul>
-    </div>
-  </div>
-
-  <div id="info-page" class="page">
-    <div class="content-card">
-      <p>نسخه: 1.2.0</p>
-      <p>وضعیت: فعال</p>
-    </div>
-  </div>
-
-</div>
-
-<div class="bottom-nav">
-  <div class="nav-item active" data-page="home-page"><i class="fas fa-house"></i>خانه</div>
-  <div class="nav-item" data-page="shop-page"><i class="fas fa-cart-shopping"></i>خرید</div>
-  <div class="nav-item" data-page="settings-page"><i class="fas fa-gear"></i>تنظیمات</div>
-  <div class="nav-item" data-page="info-page"><i class="fas fa-circle-info"></i>اطلاعات</div>
-</div>
-
-<script>
-/* ================= MiniApp Init ================= */
-const WebApp = window.Bale?.WebApp;
-
-if (!WebApp) {
-  alert("MiniApp API در دسترس نیست");
-} else {
-  WebApp.ready();
-  WebApp.expand();
-  WebApp.BackButton.show();
-}
-
-const user = WebApp.initDataUnsafe?.user;
-
-/* ================= Navigation ================= */
-const pages = document.querySelectorAll('.page');
-const navItems = document.querySelectorAll('.nav-item');
-
-function switchPage(id) {
-  pages.forEach(p => p.classList.remove('active'));
-  document.getElementById(id)?.classList.add('active');
-  navItems.forEach(n =>
-    n.classList.toggle('active', n.dataset.page === id)
-  );
-}
-
-navItems.forEach(n =>
-  n.addEventListener('click', () => switchPage(n.dataset.page))
-);
-
-WebApp.BackButton.onClick(() => switchPage('home-page'));
-
-/* ================= Add Account ================= */
-function openAddAccount() {
-  WebApp.showPopup({
-    title: "افزودن اکانت",
-    message: `
-      <input id="phoneInput"
-        placeholder="989xxxxxxxxx"
-        style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
-    `,
-    buttons: [
-      { id: "send", type: "default", text: "ارسال کد" },
-      { id: "cancel", type: "cancel", text: "لغو" }
-    ]
-  }, (btnId) => {
-    if (btnId === "send") sendCode();
-  });
-}
-
-async function sendCode() {
-  const phone = document.getElementById('phoneInput')?.value?.trim();
-
-  if (!/^989\d{9}$/.test(phone)) {
-    WebApp.showAlert("شماره تلفن نامعتبر است");
-    return;
-  }
-
-  try {
-    const res = await fetch(
-      "https://hunter-api-2x97.onrender.com/login/send-code",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, user_id: user?.id })
-      }
-    );
-
-    const data = await res.json();
-    if (!data.ok) throw new Error(data.error);
-
-    askForCode(phone);
-  } catch (e) {
-    WebApp.showAlert(e.message || "خطا در ارسال کد");
-  }
-}
-
-function askForCode(phone) {
-  WebApp.showPopup({
-    title: "کد تایید",
-    message: `
-      <input id="codeInput"
-        style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
-    `,
-    buttons: [
-      { id: "ok", type: "default", text: "تایید" },
-      { id: "cancel", type: "cancel", text: "لغو" }
-    ]
-  }, (btnId) => {
-    if (btnId === "ok") verifyCode(phone);
-  });
-}
-
-async function verifyCode(phone) {
-  const code = document.getElementById('codeInput')?.value?.trim();
-  if (!code) return;
-
-  try {
-    const res = await fetch(
-      "https://hunter-api-2x97.onrender.com/login/verify-code",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, code, user_id: user?.id })
-      }
-    );
-
-    const data = await res.json();
-    if (!data.ok) throw new Error(data.error);
-
-    WebApp.showAlert("اکانت اضافه شد");
-    loadAccounts();
-  } catch (e) {
-    WebApp.showAlert(e.message || "خطا در تایید کد");
-  }
-}
-
-/* ================= Load Accounts ================= */
-async function loadAccounts() {
-  const ul = document.getElementById('accounts-list');
-  ul.innerHTML = "⏳";
-
-  try {
-    const res = await fetch(
-      `https://hunter-api-2x97.onrender.com/accounts?user_id=${user?.id}`
-    );
-    const data = await res.json();
-
-    ul.innerHTML = "";
-
-    if (!data.accounts?.length) {
-      ul.innerHTML = "<li>اکانتی ثبت نشده</li>";
-      return;
+  <script>
+    /* ============== Init Bale MiniApp ============== */
+    const WebApp = window.Bale?.WebApp;
+    if (WebApp) {
+      WebApp.ready();
+      WebApp.expand();
+      WebApp.BackButton.show();
+    } else {
+      alert("MiniApp API در دسترس نیست");
     }
 
-    data.accounts.forEach(a => {
-      const li = document.createElement('li');
-      li.textContent = `📱 ${a.phone} (${a.online ? 'آنلاین' : 'آفلاین'})`;
-      ul.appendChild(li);
-    });
-  } catch {
-    ul.innerHTML = "<li style='color:red'>خطا در دریافت اکانت‌ها</li>";
-  }
-}
+    const user = WebApp?.initDataUnsafe?.user;
 
-loadAccounts();
-</script>
+    /* ============== Navigation ============== */
+    const pages = document.querySelectorAll('.page');
+    const navItems = document.querySelectorAll('.nav-item');
 
+    function switchPage(id) {
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById(id)?.classList.add('active');
+      navItems.forEach(n => n.classList.toggle('active', n.dataset.page === id));
+    }
+
+    navItems.forEach(n => n.addEventListener('click', () => switchPage(n.dataset.page)));
+    WebApp?.BackButton?.onClick(() => switchPage('home-page'));
+
+    /* ============== Modal Logic ============== */
+    function openAddAccount() {
+      document.getElementById("addModal").style.display = "flex";
+    }
+    function closeModal() {
+      document.getElementById("addModal").style.display = "none";
+    }
+
+    /* ============== Send Code Logic ============== */
+    async function sendCode() {
+      const phone = document.getElementById('phoneInput')?.value?.trim();
+      if (!/^989\d{9}$/.test(phone)) {
+        WebApp?.showAlert("شماره تلفن نامعتبر است");
+        return;
+      }
+
+      try {
+        const res = await fetch("https://hunter-api-2x97.onrender.com/login/send-code", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone, user_id: user?.id })
+        });
+
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || "خطا در ارسال کد");
+
+        askForCode(phone);
+      } catch (e) {
+        WebApp?.showAlert(e.message || "خطا در ارتباط با سرور");
+      }
+    }
+
+    /* ============== Code Verify Popup ============== */
+    function askForCode(phone) {
+      WebApp?.showPopup({
+        title: "کد تایید",
+        message: `
+          <input id="codeInput"
+            style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
+        `,
+        buttons: [
+          { id: "ok", type: "default", text: "تایید" },
+          { id: "cancel", type: "cancel", text: "لغو" }
+        ]
+      }, (btnId) => btnId === "ok" && verifyCode(phone));
+    }
+
+    /* ============== Verify Code ============== */
+    async function verifyCode(phone) {
+      const code = document.getElementById('codeInput')?.value?.trim();
+      if (!code) return;
+
+      try {
+        const res = await fetch("https://hunter-api-2x97.onrender.com/login/verify-code", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone, code, user_id: user?.id })
+        });
+
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || "کد نادرست است");
+
+        WebApp?.showAlert("اکانت اضافه شد ✅");
+        closeModal();
+        loadAccounts();
+      } catch (e) {
+        WebApp?.showAlert(e.message || "خطا در تایید کد");
+      }
+    }
+
+    /* ============== Load Accounts ============== */
+    async function loadAccounts() {
+      const ul = document.getElementById('accounts-list');
+      ul.innerHTML = "⏳";
+
+      try {
+        const res = await fetch(`https://hunter-api-2x97.onrender.com/accounts?user_id=${user?.id}`);
+        const data = await res.json();
+
+        ul.innerHTML = "";
+        if (!data.accounts?.length) {
+          ul.innerHTML = "<li>اکانتی ثبت نشده</li>";
+          return;
+        }
+
+        data.accounts.forEach(a => {
+          const li = document.createElement('li');
+          li.textContent = `📱 ${a.phone} (${a.online ? 'آنلاین' : 'آفلاین'})`;
+          ul.appendChild(li);
+        });
+      } catch {
+        ul.innerHTML = "<li style='color:red'>خطا در دریافت اکانت‌ها</li>";
+      }
+    }
+
+    loadAccounts();
+  </script>
 </body>
 </html>
