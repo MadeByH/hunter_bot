@@ -132,6 +132,25 @@
     #addModal .add-btn.cancel {
       background: #aaa;
     }
+
+    #verifyModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+}
+
+    #verifyModal .modal-content {
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+  width: 85%;
+  max-width: 400px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
   </style>
 </head>
 
@@ -275,17 +294,39 @@
     }
 
     async function sendCode() {
-      let phone = document.getElementById("phoneInput").value.trim();
+  let phone = document.getElementById("phoneInput").value.trim();
 
-      if (!isValidPhone(phone)) {
-        alert("شماره تلفن نامعتبر است. لطفاً با ۰۹ شروع کرده و ۱۱ رقم وارد کنید.");
-        return;
-      }
-      
-      closeModal(); // بستن مودال شماره تلفن
-      window.currentPhone = phone; // 👈 ذخیره شماره تلفن
-      openVerifyAccount(phone); // 👈 نمایش مودال سفارشی کد تایید
+  // تبدیل 09xxxxxxxxx → 989xxxxxxxxx
+  if (phone.startsWith("09")) phone = "98" + phone.slice(1);
+
+  if (!/^989\d{9}$/.test(phone)) {
+    alert("شماره تلفن نامعتبر است");
+    return;
+  }
+
+  try {
+    const res = await fetch(API_BASE + "/login/send-code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone })
+    });
+
+    const data = await res.json();
+
+    if (!data.ok) {
+      alert("❌ خطا در ارسال کد: " + data.error);
+      return;
     }
+
+    // ✅ فقط اگر کد واقعاً ارسال شد
+    window.currentPhone = phone;
+    closeModal();
+    openVerifyAccount(phone);
+
+  } catch (e) {
+    alert("❌ خطای ارتباط با سرور");
+  }
+                     }
 
     /* ============== Code Verify Popup ============== */
     function askForCode(phone) {
