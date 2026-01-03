@@ -109,94 +109,153 @@
 </div>
 
 <div class="bottom-nav">
-  <div class="nav-item" data-page="home-page"><i class="fas fa-house"></i>خانه</div>
+  <div class="nav-item active" data-page="home-page"><i class="fas fa-house"></i>خانه</div>
   <div class="nav-item" data-page="shop-page"><i class="fas fa-cart-shopping"></i>خرید</div>
   <div class="nav-item" data-page="settings-page"><i class="fas fa-gear"></i>تنظیمات</div>
   <div class="nav-item" data-page="info-page"><i class="fas fa-circle-info"></i>اطلاعات</div>
 </div>
 
 <script>
-const WebApp = window.Bale.WebApp;
+/* ================= MiniApp Init ================= */
+const WebApp = window.Bale?.WebApp;
+if (!WebApp) {
+  alert("MiniApp API در دسترس نیست");
+}
 WebApp.ready();
 
 const user = WebApp.initDataUnsafe?.user;
 
+/* ================= Navigation ================= */
 const pages = document.querySelectorAll('.page');
 const navItems = document.querySelectorAll('.nav-item');
 
 function switchPage(id) {
   pages.forEach(p => p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  navItems.forEach(n => n.classList.toggle('active', n.dataset.page === id));
+  document.getElementById(id)?.classList.add('active');
+  navItems.forEach(n =>
+    n.classList.toggle('active', n.dataset.page === id)
+  );
 }
 
-navItems.forEach(n => n.onclick = () => switchPage(n.dataset.page));
+navItems.forEach(n =>
+  n.addEventListener('click', () => switchPage(n.dataset.page))
+);
 
 WebApp.BackButton.onClick(() => switchPage('home-page'));
 
+/* ================= Add Account ================= */
 document.getElementById('add-account-btn').onclick = openAddAccount;
 
 function openAddAccount() {
   WebApp.showPopup({
     title: "افزودن اکانت",
-    message: `<input id="phoneInput" placeholder="989xxxxxxxxx" style="width:100%;padding:8px">`,
+    message: `
+      <input id="phoneInput"
+        placeholder="989xxxxxxxxx"
+        style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
+    `,
     buttons: [
-      { text: "ارسال کد", type: "default", onClick: () => sendCode() },
-      { text: "لغو", type: "cancel" }
+      { id: "send", type: "default", text: "ارسال کد" },
+      { id: "cancel", type: "cancel", text: "لغو" }
     ]
+  }, (btnId) => {
+    if (btnId === "send") sendCode();
   });
 }
 
 async function sendCode() {
-  const phone = document.getElementById('phoneInput').value.trim();
+  const phone = document.getElementById('phoneInput')?.value?.trim();
+
   if (!/^989\d{9}$/.test(phone)) {
-    WebApp.showPopup({ title: "خطا", message: "شماره نامعتبر" });
+    WebApp.showAlert("شماره تلفن نامعتبر است");
     return;
   }
 
-  await fetch("https://hunter-api-2x97.onrender.com/login/send-code", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ phone, user_id: user?.id })
-  });
+  try {
+    const res = await fetch(
+      "https://hunter-api-2x97.onrender.com/login/send-code",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, user_id: user?.id })
+      }
+    );
 
-  askForCode(phone);
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+
+    askForCode(phone);
+  } catch (e) {
+    WebApp.showAlert(e.message || "خطا در ارسال کد");
+  }
 }
 
 function askForCode(phone) {
   WebApp.showPopup({
     title: "کد تایید",
-    message: `<input id="codeInput" style="width:100%;padding:8px">`,
+    message: `
+      <input id="codeInput"
+        style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
+    `,
     buttons: [
-      { text: "تایید", type: "default", onClick: () => verifyCode(phone) }
+      { id: "ok", type: "default", text: "تایید" },
+      { id: "cancel", type: "cancel", text: "لغو" }
     ]
+  }, (btnId) => {
+    if (btnId === "ok") verifyCode(phone);
   });
 }
 
 async function verifyCode(phone) {
-  const code = document.getElementById('codeInput').value.trim();
-  await fetch("https://hunter-api-2x97.onrender.com/login/verify-code", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ phone, code, user_id: user?.id })
-  });
+  const code = document.getElementById('codeInput')?.value?.trim();
+  if (!code) return;
 
-  WebApp.closePopup();
-  loadAccounts();
+  try {
+    const res = await fetch(
+      "https://hunter-api-2x97.onrender.com/login/verify-code",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, code, user_id: user?.id })
+      }
+    );
+
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+
+    WebApp.showAlert("اکانت اضافه شد");
+    loadAccounts();
+  } catch (e) {
+    WebApp.showAlert(e.message || "خطا در تایید کد");
+  }
 }
 
+/* ================= Load Accounts ================= */
 async function loadAccounts() {
   const ul = document.getElementById('accounts-list');
-  ul.innerHTML = "";
+  ul.innerHTML = "⏳";
 
-  const res = await fetch(`https://hunter-api-2x97.onrender.com/accounts?user_id=${user?.id}`);
-  const data = await res.json();
+  try {
+    const res = await fetch(
+      `https://hunter-api-2x97.onrender.com/accounts?user_id=${user?.id}`
+    );
+    const data = await res.json();
 
-  data.accounts?.forEach(a => {
-    const li = document.createElement('li');
-    li.textContent = `📱 ${a.phone} (${a.online ? 'آنلاین' : 'آفلاین'})`;
-    ul.appendChild(li);
-  });
+    ul.innerHTML = "";
+
+    if (!data.accounts?.length) {
+      ul.innerHTML = "<li>اکانتی ثبت نشده</li>";
+      return;
+    }
+
+    data.accounts.forEach(a => {
+      const li = document.createElement('li');
+      li.textContent = `📱 ${a.phone} (${a.online ? 'آنلاین' : 'آفلاین'})`;
+      ul.appendChild(li);
+    });
+  } catch {
+    ul.innerHTML = "<li style='color:red'>خطا در دریافت اکانت‌ها</li>";
+  }
 }
 
 loadAccounts();
