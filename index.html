@@ -297,6 +297,7 @@
     async function sendCode() {
   const phone = document.getElementById("phoneInput").value.trim();
 
+  alert("sendCode called");
   if (!/^989\d{9}$/.test(phone)) {
     alert("شماره نامعتبر است");
     return;
