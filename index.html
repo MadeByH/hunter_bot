@@ -350,31 +350,8 @@
 
   window.currentPhone = phone;   // ⭐️ خیلی مهم
   closeModal();
-  alert("sendCode next close");
   openVerifyAccount(phone);
       }
-
-    /* ============== Code Verify Popup ============== */
-    function askForCode(phone) {
-      // ما phone را اینجا نگه داشتیم تا نیازی به خواندن مجدد از input نداشته باشیم
-      WebApp?.showPopup({
-        title: "تایید شماره: " + phone.substring(0, 4) + "*******",
-        message: `
-          <p>کد ارسالی به ${phone} را وارد نمایید:</p>
-          <input id="codeInput"
-            style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;text-align:center;direction:ltr;" 
-            placeholder="کد ۶ رقمی">
-        `,
-        buttons: [
-          { id: "ok", type: "default", text: "تایید" },
-          { id: "cancel", type: "cancel", text: "لغو" }
-        ]
-      }, (btnId) => {
-          if (btnId === "ok") {
-              verifyCode(phone); // ارسال شماره موبایل تایید شده
-          }
-      });
-    }
 
         /* ============== Verify Code (FROM MODAL) ============== */
     async function verifyCodeFromModal() {
